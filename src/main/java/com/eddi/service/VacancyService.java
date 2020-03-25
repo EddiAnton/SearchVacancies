@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -52,5 +55,41 @@ public class VacancyService {
             e.printStackTrace();
         }
         return vacancy;
+    }
+
+    public List<Vacancy> findByNameContaining(String name) {
+        return StreamSupport
+                .stream(Spliterators.spliteratorUnknownSize(vacancyRepository.findByNameContaining(name).iterator(),
+                        Spliterator.NONNULL), false)
+                .collect(Collectors.toList());
+    }
+
+    public List<Vacancy> findByEmployerNameContaining(String employerName) {
+        return StreamSupport
+                .stream(Spliterators.spliteratorUnknownSize(vacancyRepository.findByEmployerNameContaining(employerName).iterator(),
+                        Spliterator.NONNULL), false)
+                .collect(Collectors.toList());
+    }
+
+    public List<Vacancy> findByPublishedAtContaining(String publishedAt) {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(publishedAt);
+        }
+        catch (Exception e) {
+            date = Date.from(Instant.ofEpochMilli(0));
+        }
+        return StreamSupport
+                .stream(Spliterators.spliteratorUnknownSize(vacancyRepository.findByPublishedAtContaining(date).iterator(),
+                        Spliterator.NONNULL), false)
+                .collect(Collectors.toList());
+    }
+
+    public List<Vacancy> findBySalaryContaining(String salary) {
+        Integer salaryInt = Integer.parseInt(salary);
+        return StreamSupport
+                .stream(Spliterators.spliteratorUnknownSize(vacancyRepository.findBySalaryContaining(salaryInt).iterator(),
+                        Spliterator.NONNULL), false)
+                .collect(Collectors.toList());
     }
 }

@@ -27,10 +27,10 @@
         <form th:each="vacancy: ${vacancies}">
             <tr>
                 <td th:text="${vacancy.id}"/>
-                <td th:text="${vacancy.title}"/>
-                <td th:text="${vacancy.organization}"/>
+                <td th:text="${vacancy.name}"/>
+                <td th:text="${vacancy.employerName}"/>
                 <td th:text="${vacancy.salary}"/>
-                <td th:text="${vacancy.publicationDate}"/>
+                <td th:text="${vacancy.publishedAt}"/>
             </tr>
         </form>
         </tbody>

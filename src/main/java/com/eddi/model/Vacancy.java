@@ -20,24 +20,24 @@ public class Vacancy implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "publication_date")
-    private Date publicationDate;
+    @Column(name = "published_at")
+    private Date publishedAt;
 
-    @Column(name = "organization")
-    private String organization;
+    @Column(name = "employer_name")
+    private String employerName;
 
     @Column(name = "salary")
     private int salary;
 
     public Vacancy() {}
 
-    public Vacancy(String title, Date publicationDate, String organization, int salary) {
-        this.title = title;
-        this.publicationDate = publicationDate;
-        this.organization = organization;
+    public Vacancy(String name, Date publishedAt, String employerName, int salary) {
+        this.name = name;
+        this.publishedAt = publishedAt;
+        this.employerName = employerName;
         this.salary = salary;
     }
 
@@ -49,28 +49,28 @@ public class Vacancy implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getPublicationDate() {
-        return publicationDate;
+    public Date getPublishedAt() {
+        return publishedAt;
     }
 
-    public void setPublicationDate(Date publicationDate) {
-        this.publicationDate = publicationDate;
+    public void setPublishedAt(Date publishedAt) {
+        this.publishedAt = publishedAt;
     }
 
-    public String getOrganization() {
-        return organization;
+    public String getEmployerName() {
+        return employerName;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setEmployerName(String employerName) {
+        this.employerName = employerName;
     }
 
     public int getSalary() {
@@ -80,5 +80,4 @@ public class Vacancy implements Serializable {
     public void setSalary(int salary) {
         this.salary = salary;
     }
-
 }
