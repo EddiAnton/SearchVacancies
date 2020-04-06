@@ -26,11 +26,14 @@
                 <input type="date" name="publishedAt" class="form-control">
             </div>
             <div class="col">
-                <p>Зарплата: <input type="text" name="salary" size="30" placeholder="Введите желаемую зарплату"></p>
+                <p>Зарплата от: <input type="text" name="salaryFrom" size="30" placeholder="Введите минимальную зарплату"></p>
+            </div>
+            <div class="col">
+                <p>Зарплата до: <input type="text" name="salaryTo" size="30" placeholder="Введите желаемую зарплату"></p>
             </div>
             <input class="btn btn-dark" type="submit" value="Применить фильтр">
             <a class="btn btn-dark" href="/select_vacancies/view_vacancies">Показать все</a>
-            <a class="btn btn-dark" href="/select_vacancies">Обновить базу вакансий</a>
+            <a class="btn btn-dark" href="/select_vacancies/select_vacancies">Обновить базу вакансий</a>
         </form>
     </div>
     <div class="footer">

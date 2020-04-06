@@ -19,17 +19,19 @@
             <th>ID вакансии</th>
             <th>Название вакансии</th>
             <th>Организация</th>
-            <th>Зарплата</th>
+            <th>Зарплата от</th>
+            <th>Зарплата до</th>
             <th>Дата публикации</th>
         </tr>
         </thead>
         <tbody>
         <form th:each="vacancy: ${vacancies}">
             <tr>
-                <td th:text="${vacancy.id}"/>
+                <td th:text="${vacancy.vacancy_id}"/>
                 <td th:text="${vacancy.name}"/>
-                <td th:text="${vacancy.employerName}"/>
-                <td th:text="${vacancy.salary}"/>
+                <td th:text="${vacancy.employer.name}"/>
+                <td th:text="${vacancy.salary.from}"/>
+                <td th:text="${vacancy.salary.to}"/>
                 <td th:text="${vacancy.publishedAt}"/>
             </tr>
         </form>

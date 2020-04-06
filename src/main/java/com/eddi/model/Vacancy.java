@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,13 +22,11 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Vacancy implements Serializable {
     private static final String PATTERN = "yyyy-MM-dd";
-    Employer employer = new Employer();
-    Salary salary = new Salary();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private int vacancy_id;
 
     @Column(name = "name")
     private String name;
@@ -32,31 +34,29 @@ public class Vacancy implements Serializable {
     @Column(name = "published_at")
     private Date publishedAt;
 
-    @Column(name = "employer_name")
-    private String employerName;
+    @ManyToOne
+    @JoinColumn(name = "employer_id")
+    private Employer employer;
 
-    @Column(name = "salary_from")
-    private int salaryFrom;
-
-    @Column(name = "salary_to")
-    private int salaryTo;
+    @OneToOne
+    @JoinColumn(name = "salary_id")
+    private Salary salary;
 
     public Vacancy() {}
 
-    public Vacancy(String name, Date publishedAt, String employerName, int salaryFrom, int salaryTo) {
+    public Vacancy(String name, Date publishedAt, Employer employer, Salary salary) {
         this.name = name;
         this.publishedAt = publishedAt;
-        this.employerName = employerName;
-        this.salaryFrom = salaryFrom;
-        this.salaryTo = salaryTo;
+        this.employer = employer;
+        this.salary = salary;
     }
 
-    public int getId() {
-        return id;
+    public int getVacancy_id() {
+        return vacancy_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setVacancy_id(int vacancy_id) {
+        this.vacancy_id = vacancy_id;
     }
 
     public String getName() {
@@ -82,27 +82,30 @@ public class Vacancy implements Serializable {
         }
     }
 
-    public String getEmployerName() {
-        return employer.getName();
+    public Employer getEmployer() {
+        return employer;
     }
 
-    public void setEmployerName(String employerName) {
-        employer.setName(employerName);
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
     }
 
-    public int getSalaryFrom() {
-        return salary.getFrom();
+    public Salary getSalary() {
+        return salary;
     }
 
-    public void setSalaryFrom(int salaryFrom) {
-        salary.setFrom(salaryFrom);
+    public void setSalary(Salary salary) {
+        this.salary = salary;
     }
 
-    public int getSalaryTo() {
-        return salary.getTo();
-    }
-
-    public void setSalaryTo(int salaryTo) {
-        salary.setTo(salaryTo);
+    @Override
+    public String toString() {
+        return "Vacancy{" +
+                "id=" + vacancy_id +
+                ", name='" + name + '\'' +
+                ", publishedAt=" + publishedAt +
+                ", employer=" + employer +
+                ", salary=" + salary +
+                '}';
     }
 }

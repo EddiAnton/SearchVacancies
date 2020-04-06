@@ -1,16 +1,17 @@
 package com.eddi.service;
 
+import com.eddi.model.Employer;
 import com.eddi.model.Vacancy;
+import com.eddi.model.VacancyList;
+import com.eddi.repository.EmployerRepository;
 import com.eddi.repository.VacancyRepository;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -26,6 +27,9 @@ public class VacancyService {
     @Autowired
     private VacancyRepository vacancyRepository;
 
+    @Autowired
+    private EmployerRepository employerRepository;
+
     public void save(Vacancy vacancy) {
         vacancyRepository.save(vacancy);
 
@@ -39,22 +43,32 @@ public class VacancyService {
                 .collect(Collectors.toList());
     }
 
-    public Vacancy getNewVacancy(String url) {
+    public List<Employer> getAllEmployer() {
+        return StreamSupport
+                .stream(Spliterators.spliteratorUnknownSize(employerRepository.findAll().iterator(),
+                        Spliterator.NONNULL), false)
+                .collect(Collectors.toList());
+    }
+
+    public VacancyList getNewVacancies(String url) {
         String httpObject = null;
         try {
             httpObject = new HttpService().doHttpUrlConnectionAction(url);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println(httpObject);
+
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        Vacancy vacancy = null;
+        VacancyList vacancyList = null;
         try {
-            vacancy = objectMapper.readValue(httpObject, Vacancy.class);
+            vacancyList = objectMapper.readValue(httpObject, VacancyList.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return vacancy;
+        return vacancyList;
     }
 
     public List<Vacancy> findByNameContaining(String name) {
