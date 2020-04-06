@@ -5,6 +5,7 @@ import com.eddi.model.VacancyList;
 import com.eddi.service.VacancyService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,17 +31,18 @@ public class SelectVacancyController {
     public String select(@RequestParam("name") String name,
                          @RequestParam("publishedAt")String publishedAt,
                          @RequestParam("employerName") String employerName,
-                         @RequestParam("salary") String salary,
+                         @RequestParam("salaryFrom") String from,
+                         @RequestParam("salaryTo") String to,
                          Model model) {
         List<Vacancy> allSelection = new ArrayList<>();
         List<Vacancy> listFindByNameContaining = new ArrayList<>();
         List<Vacancy> listFindByEmployerNameContaining = new ArrayList<>();
-        List<Vacancy> listFindByPublishedAtContaining = new ArrayList<>();
+        //List<Vacancy> listFindByPublishedAtContaining = new ArrayList<>();
         //List<Vacancy> listFindBySalaryContaining = new ArrayList<>();
 
         listFindByNameContaining = vacancyService.findByNameContaining(name);
         listFindByEmployerNameContaining = vacancyService.findByEmployerNameContaining(employerName);
-        listFindByPublishedAtContaining = vacancyService.findByPublishedAtContaining(publishedAt);
+        //listFindByPublishedAtContaining = vacancyService.findByPublishedAtContaining(publishedAt);
         //listFindBySalaryContaining = vacancyService.findBySalaryContaining(salary);
 
         if(allSelection.size() > 0 && listFindByNameContaining.size() > 0) {
@@ -53,12 +55,12 @@ public class SelectVacancyController {
         }else {
             allSelection.addAll(listFindByEmployerNameContaining);
         }
-        if(allSelection.size() > 0 && listFindByPublishedAtContaining.size() > 0) {
+        /*if(allSelection.size() > 0 && listFindByPublishedAtContaining.size() > 0) {
             allSelection.retainAll(listFindByPublishedAtContaining);
         }else {
             allSelection.addAll(listFindByPublishedAtContaining);
         }
-        /*if(allSelection.size() > 0 && listFindBySalaryContaining.size() > 0) {
+        if(allSelection.size() > 0 && listFindBySalaryContaining.size() > 0) {
             allSelection.retainAll(listFindBySalaryContaining);
         }else {
             allSelection.addAll(listFindBySalaryContaining);
@@ -80,8 +82,13 @@ public class SelectVacancyController {
 
         String hhUrl = "https://api.hh.ru/vacancies?area=1202&specialization=1";
         VacancyList vacancyList = new VacancyService().getNewVacancies(hhUrl);
+
+        System.out.println(vacancyList);
+
         for (Vacancy v: vacancyList.getItems()) {
-            vacancyService.save(v);
+
+            System.out.println(v);
+            vacancyService.saveVacancy(v);
         }
         return "select_vacancies";
     }

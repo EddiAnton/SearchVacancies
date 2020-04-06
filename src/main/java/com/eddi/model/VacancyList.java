@@ -21,4 +21,11 @@ public class VacancyList {
     public void setItems(List<Vacancy> items) {
         this.items = items;
     }
+
+    @Override
+    public String toString() {
+        return "VacancyList{" +
+                "items=" + items +
+                '}';
+    }
 }

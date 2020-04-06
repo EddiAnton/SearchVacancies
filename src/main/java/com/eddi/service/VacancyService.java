@@ -1,9 +1,11 @@
 package com.eddi.service;
 
 import com.eddi.model.Employer;
+import com.eddi.model.Salary;
 import com.eddi.model.Vacancy;
 import com.eddi.model.VacancyList;
 import com.eddi.repository.EmployerRepository;
+import com.eddi.repository.SalaryRepository;
 import com.eddi.repository.VacancyRepository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +32,20 @@ public class VacancyService {
     @Autowired
     private EmployerRepository employerRepository;
 
-    public void save(Vacancy vacancy) {
+    @Autowired
+    private SalaryRepository salaryRepository;
+
+    public void saveEmployer(Employer employer) {
+        employerRepository.save(employer);
+    }
+
+    public void saveSalary(Salary salary) {
+        salaryRepository.save(salary);
+    }
+
+    public void saveVacancy(Vacancy vacancy) {
+        saveEmployer(vacancy.getEmployer());
+        saveSalary(vacancy.getSalary());
         vacancyRepository.save(vacancy);
 
         System.out.println(vacancy);
